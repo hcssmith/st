@@ -705,6 +705,9 @@ execsh(char *cmd, char **args)
 	setenv("HOME", pw->pw_dir, 1);
 	setenv("TERM", termname, 1);
 
+	if (opt_dir && chdir(opt_dir) < 0)
+		die("chdir failed: %s\n", strerror(errno));
+
 	signal(SIGCHLD, SIG_DFL);
 	signal(SIGHUP, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
