@@ -77,10 +77,20 @@ typedef union {
 	const char *s;
 } Arg;
 
+typedef struct {
+	uint mod;
+	uint button;
+	void (*func)(const Arg *);
+	const Arg arg;
+} MouseKey;
+
 void die(const char *, ...);
 void redraw(void);
 void draw(void);
 
+void kscrolldown(const Arg *);
+void kscrollup(const Arg *);
+int tisaltscr(void);
 void printscreen(const Arg *);
 void printsel(const Arg *);
 void sendbreak(const Arg *);
@@ -128,3 +138,5 @@ extern unsigned int defaultbg;
 extern unsigned int defaultcs;
 extern float alpha;
 extern char *opt_dir;
+
+extern MouseKey mkeys[];

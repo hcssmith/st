@@ -465,11 +465,22 @@ void
 bpress(XEvent *e)
 {
 	struct timespec now;
+	MouseKey *mk;
 	int snap;
 
 	if (IS_SET(MODE_MOUSE) && !(e->xbutton.state & forcemousemod)) {
 		mousereport(e);
 		return;
+	}
+
+	if (!tisaltscr()) {
+		for (mk = mkeys; mk < mkeys + LEN(mkeys); mk++) {
+			if (e->xbutton.button == mk->button
+					&& match(mk->mod, e->xbutton.state & ~buttonmask(e->xbutton.button))) {
+				mk->func(&mk->arg);
+				return;
+			}
+		}
 	}
 
 	if (mouseaction(e, 0))
